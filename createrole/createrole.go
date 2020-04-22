@@ -77,18 +77,18 @@ func createFreshmenRole(sid string, noviceParam1 uint32) (task *promise.Promise)
 	task = promise.NewPromise()
 	go func() {
 		// connect guide server
-		conn, err := utils.ConnectGuideServer(guideAddr, sid)
+		conn, err := utils.ConnectGuideServerBySID(guideAddr, sid)
 		if err != nil {
-			task.Reject(errors.New("ConnectGuideServer failed: " + err.Error()))
+			task.Reject(errors.New("ConnectGuideServerBySID failed: " + err.Error()))
 			return
 		}
 		// create
 		err = createRole(conn)
 		if err != nil {
 			// reconnect guide server
-			conn, err = utils.ConnectGuideServer(guideAddr, sid)
+			conn, err = utils.ConnectGuideServerBySID(guideAddr, sid)
 			if err != nil {
-				task.Reject(errors.New("ConnectGuideServer failed: " + err.Error()))
+				task.Reject(errors.New("ConnectGuideServerBySID failed: " + err.Error()))
 				return
 			}
 		}

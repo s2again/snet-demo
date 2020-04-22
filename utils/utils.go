@@ -9,25 +9,24 @@ import (
 
 	"github.com/fanliao/go-promise"
 	"github.com/s2again/snet"
-	"github.com/s2again/snet/core"
 )
 
 // noinspection GoUnusedFunction
-func ConnectGuideServer(loginAddr *net.TCPAddr, sid string) (conn *snet.GuideServerConnection, err error) {
+func ConnectGuideServerBySID(loginAddr *net.TCPAddr, sid string) (conn *snet.GuideServerConnection, err error) {
 	defer func() {
 		x := recover()
 		if x != nil {
 			err = fmt.Errorf("unknown error: %v", x)
 		}
 	}()
-	uid, sessionID, err := core.ParseSIDString(sid)
+	uid, sessionID, err := ParseSIDString(sid)
 	if err != nil {
 		return nil, fmt.Errorf("ParseSIDString Error: %v", err)
 	}
 
 	conn, err = snet.ConnectGuideServer(loginAddr)
 	if err != nil {
-		return nil, fmt.Errorf("ConnectGuideServer Error: %v", err)
+		return nil, fmt.Errorf("ConnectGuideServerBySID Error: %v", err)
 	}
 	conn.SetSession(uid, sessionID)
 	return
@@ -54,7 +53,7 @@ func GetOnlineServerList(conn *snet.GuideServerConnection) ([]snet.OnlineServerI
 	return info.SvrList, nil
 }
 
-func ParseSID(sid string) (userID uint32, session [16]byte, err error) {
+func ParseSIDString(sid string) (userID uint32, session [16]byte, err error) {
 	if len(sid) != 40 {
 		err = errors.New("illegal parameter")
 		return

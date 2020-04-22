@@ -71,7 +71,7 @@ func main() {
 }
 
 func login(loginConn *snet.GuideServerConnection, sid string) (conn *snet.OnlineServerConnection, err error) {
-	userID, session, err := utils.ParseSID(sid)
+	userID, session, err := utils.ParseSIDString(sid)
 	if err != nil {
 		panic(err)
 	}

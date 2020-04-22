@@ -47,10 +47,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	loginConn.UserID = testAccount
-	p := loginConn.Login(testPassword)
+	p := loginConn.Login(testAccount, testPassword)
 	p.OnSuccess(func(v interface{}) {
-		info := v.(snet.LoginResponseFromGuide)
+		info := v.(snet.LoginResponse)
 		fmt.Printf("%+v\n", info)
 		fmt.Printf("sid: %X%X", loginConn.UserID, info.SessionID)
 		exit <- 1
